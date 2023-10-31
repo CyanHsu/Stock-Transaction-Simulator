@@ -1,0 +1,41 @@
+<head>
+    <table>
+      <tr>
+        <td><a href="index.html">Home</a></td>
+        <td><a id = "switchPage" href="#">Inventory</a></td>
+      </tr>
+    </table>
+  </head>
+
+<body  style="background-color: lightgray ;margin: auto ;  justify-content: center;">
+    <style>
+        .container {
+          /* display: box; */
+          /* grid-template-columns: center center; */
+          margin-left: auto;
+          margin-right: auto;
+        }
+      </style>
+    <div class="container">
+        <h1 style="text-align: center; font-family: 'Arial Black',fantasy; color: steelblue" >Inventory</h1>
+        <table  class="container">
+            <tr>
+                <td>
+                    <p id = "balance" style="padding-right: 20;"> Available Balance : 100000 </p>
+                </td>
+                <td>
+                    <button id = "summary">Summary</button>
+                </td>
+            </tr>
+            
+        </table>
+       
+       
+      
+    </div>
+
+    <div id = "tableContainer"></div>
+
+      <script type="text/javascript" src="invertory.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>

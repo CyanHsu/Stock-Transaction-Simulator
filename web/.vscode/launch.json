@@ -10,7 +10,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "file:///Users/chunhaohsu/Capstone/web/index.html",
+            "url": "file:///Users/chunhaohsu/Capstone/webProject/web/index.html",
             "webRoot": "${workspaceFolder}"
         }
     ]

@@ -64,18 +64,20 @@ function transaction(action){
         companyName: companyName,
         dateTime: dateTime, 
         stockPrice: currentPrice, 
-        shareQuantity: shareQuantity,
+        shareQuantity: (action == "Buy")?shareQuantity * 1 :shareQuantity *-1,
         action: action,
         changes: (action == "Buy")?currentPrice * shareQuantity * -1 :currentPrice * shareQuantity
         
     }
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:3000/insert', true);
+    xhr.open('POST', 'http://localhost:8080/insert', true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.send(JSON.stringify(data));
 
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 400) {
             console.log('success');
+            updateBalance()
         } else {
             console.error('error');
             var errorMessage = JSON.parse(xhr.responseText).error;
@@ -84,18 +86,20 @@ function transaction(action){
         }
     };
 
-    xhr.onerror = function() {
+    xhr.onerror = function(err) {
+        alert(err)
         console.error('error');
     };
 
-    xhr.send(JSON.stringify(data));
+    
     updateBalance()
 }
 
 function updateBalance(){
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:3000/balance', true);
+    xhr.open('GET', 'http://localhost:8080/balance', true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.send();
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -114,8 +118,21 @@ function updateBalance(){
         }
       };
       
-      xhr.send();
+     
 
 }
+
+let switchPage = document.getElementById("switchPage")
+switchPage.onclick = function(event){
+    event.preventDefault()
+    let value = balanceText.textContent.split(": ")[1]
+    console.log("value = " + value)
+    
+    let url = `inventory.html?param1=${encodeURIComponent(value)}`
+    window.location.href = url
+
+}
+
+
 
 window.onload = updateBalance()
