@@ -1,0 +1,78 @@
+
+<head>
+  
+</head>
+<body style="background-color: lightgray ;margin: auto ;  justify-content: center;">
+    <style>
+        .container {
+          display: grid;
+          grid-template-columns: auto auto;
+          align-items: center; /* 可以使它们垂直居中 */
+        }
+      </style>
+      
+      <div class="container">
+        <h1 style="text-align: center; font-family: 'Arial Black',fantasy; color: steelblue" >Chun Hao's Stock Simulator</h1>
+        <blockquote id = "balance" > Available Balance : 100000 </blockquote>
+
+
+      </div>
+    <!-- <h1 style="text-align: center; font-family: 'Arial Black',fantasy; color: steelblue" >Chun Hao's Stock Simulator</h1> -->
+    
+    <table style="margin-left: auto; margin-right: auto;">
+    
+
+
+        <tr>
+            <td style="padding: 5px"><label>Stock Name :</label></td>
+            <td style="padding: 15px"><textarea id="stockName"></textarea></td>
+            <td style="padding: 15px"><button type="button" id="searchBtn">Search</button></td>
+        </tr>
+
+    </tr>
+
+        <!-- log in page -->
+        <!-- <tr>
+            <td style="padding: 5px"><label>User Name :</label></td>
+            <td style="padding: 15px"><textarea id="userName"></textarea></td>
+        </tr>
+        
+        <tr>
+            <td style="padding: 5px"><label>Password :</label></td>
+            <td style="padding: 15px"><textarea id="password"></textarea></td>
+        </tr>
+        <tr>
+            <table style="margin-left: auto; margin-right: auto;">
+                <tr>
+                    <button type="button" style="margin-left: 40%">Log in</button>
+                    <button type="button" style="margin-left: 10%">Sign on</button>
+                </tr>
+
+            </table>
+            
+        </tr> -->
+    
+    
+    </table>
+
+    <div class="main" style="display: flex;border: solid black; width: 500px;margin-left: auto; margin-right: auto;">
+
+        <div id="msgWindow" class="scroll"  style="background-color:rosybrown; height: 100px ; width: 500px">
+            <blockquote id="stocks" style="text-align: center">Stock infomation</blockquote>
+            <blockquote id="stockInfo" style="text-align: center"></blockquote>
+        </div>
+
+    </div>
+    
+
+    <div class="main" style="display: flex; align-items: center; justify-content: center; margin-top: 10;">
+        <button type="button" id="buyBtn" >Buy</button>
+        <button type="button" id="sellBtn" style="margin-left: 10%">Sell</button>
+    </div>
+
+
+    <script type="text/javascript" src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    
+</body>
