@@ -6,6 +6,14 @@ let stockName = document.getElementById("stockName");
 
 let companyName
 let currentPrice
+
+var closePrice
+var highPrice
+var lowPrice
+var openPrice
+var timestamp
+var volume
+var symbol
 stockSearch.onclick = function(){
     // get real time stock price
     console.log("click")
@@ -14,6 +22,8 @@ stockSearch.onclick = function(){
     let queryUrl = "http://query1.finance.yahoo.com/v8/finance/chart/" + company.value + "?region=US&lang=en-US&includePrePost=false&interval=2m&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
     // let currentStockInfo = JSON.parse(query);
    
+
+    
     // parse return data
     console.log(queryUrl)
     const corsURL = 'http://cors-anywhere.herokuapp.com/';
@@ -24,7 +34,14 @@ stockSearch.onclick = function(){
             console.log(data);
             // var pos1 = data.
             // print = print.substring(pos1, 1)
-            var symbol = data.chart.result[0].meta.symbol;
+            symbol = data.chart.result[0].meta.symbol;
+            closePrice = data.chart.result[0].indicators.quote[0].close
+            openPrice = data.chart.result[0].indicators.quote[0].open
+            highPrice = data.chart.result[0].indicators.quote[0].high
+            lowPrice = data.chart.result[0].indicators.quote[0].low
+            volume = data.chart.result[0].indicators.quote[0].volume
+            timestamp = data.chart.result[0].timestamp
+            // console.log(closePrice)
             currentPrice = data.chart.result[0].meta.regularMarketPrice;
             if(currentPrice != null){
                 var priviousPrice = data.chart.result[0].meta.chartPreviousClose;
@@ -35,6 +52,9 @@ stockSearch.onclick = function(){
                 else{
                     displayWindow.textContent = symbol + "       " + currentPrice + "   + " + difference + "   (+" + (difference*100/parseFloat(priviousPrice)).toFixed(2) + " %)";
                 }
+                // chart()
+                tradingView(symbol)
+
             }
             else{
                 alert("Company: " + companyName + " not found");
@@ -136,3 +156,80 @@ switchPage.onclick = function(event){
 
 
 window.onload = updateBalance()
+
+
+function chart(){
+    var jsonData = [];
+    var startDate = new Date(timestamp[0] * 1000);
+
+    for (var i = 0; i < closePrice.length; i++) {
+        
+      var dataPoint = {
+        date: startDate.toISOString().split('T')[0],
+        open: openPrice[i],
+        high: highPrice[i],
+        low: lowPrice[i],
+        close: closePrice[i],
+        volume: volume[i]
+      };
+      jsonData.push(dataPoint);
+      startDate.setDate(startDate.getDate() - 1);
+    }
+    
+    var jsonString = JSON.stringify(jsonData);
+    console.log(jsonString)
+
+    var stockChart = new ej.charts.StockChart({
+        primaryYAxis: {
+          lineStyle: { color: "transparent" },
+          majorTickLines: { color: "transparent", width: 0 },
+          crosshairTooltip: { enable: true }
+        },
+        primaryXAxis: {
+          majorGridLines: { color: "transparent" },
+          crosshairTooltip: { enable: true },
+          title: "Months"
+        },
+        
+      
+      
+        enableSelector: false,
+        series: [
+          {
+            dataSource: jsonData,
+            type: "Candle",
+      
+           
+          }
+        ],
+       title: symbol + " Stock Price"
+      });
+
+    // document.getElementById("chart-container").appendChild(st)
+    document.getElementById("chart-container").style.width = 800
+      stockChart.appendTo("#chart-container");
+
+}
+
+function tradingView(symbol){
+
+ 
+
+
+
+  new TradingView.widget(
+    {
+    "autosize": true,
+    "symbol": "NASDAQ:"+symbol,
+    "interval": "D",
+    "timezone": "Etc/UTC",
+    "theme": "dark",
+    "style": "1",
+    "locale": "en",
+    "enable_publishing": false,
+    "allow_symbol_change": false,
+    "container_id": "tradingview_21a5f"
+  }
+    );
+}
+

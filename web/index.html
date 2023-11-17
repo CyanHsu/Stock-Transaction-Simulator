@@ -10,19 +10,19 @@
 <body style="background-color: lightgray ;margin: auto ;  justify-content: center;">
     <style>
         .container {
-          display: grid;
-          grid-template-columns: auto auto;
-          align-items: center; 
+           /* display: box; */
+          /* grid-template-columns: center center; */
+          margin-left: auto;
+          margin-right: auto;
         }
       </style>
       
       <div class="container">
         <h1 style="text-align: center; font-family: 'Arial Black',fantasy; color: steelblue" >Chun Hao's Stock Simulator</h1>
-        <blockquote id = "balance" > Available Balance : 100000 </blockquote>
+        <p id = "balance" style="margin-left: 70%;"> Available Balance : 100000 </p>
 
 
       </div>
-    <!-- <h1 style="text-align: center; font-family: 'Arial Black',fantasy; color: steelblue" >Chun Hao's Stock Simulator</h1> -->
     
     <table style="margin-left: auto; margin-right: auto;">
     
@@ -36,7 +36,62 @@
 
     </tr>
 
-        <!-- log in page -->
+      
+    
+    </table>
+
+    <div class="main" style="display: flex;border: solid black; width: 500px;margin-left: auto; margin-right: auto;">
+
+        <div id="msgWindow" class="scroll"  style="background-color:rosybrown; height: 100px ; width: 500px">
+            <blockquote id="stocks" style="text-align: center">Stock infomation</blockquote>
+            <blockquote id="stockInfo" style="text-align: center"></blockquote>
+        </div>
+
+    </div>
+    
+    <div id = "chart-container" style="display: flex; justify-content: center; margin-left: auto;margin-right: auto;">
+
+    </div>
+
+    <div class="main" style="display: flex; align-items: center; justify-content: center; margin-top: 10;">
+        <button type="button" id="buyBtn" >Buy</button>
+        <button type="button" id="sellBtn" style="margin-left: 10%">Sell</button>
+    </div>
+    
+  
+    </div>
+    <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container" style="height:100%;width:100%;padding-top: 15px;">
+    <div id="tradingview_21a5f" style="height:calc(60% - 32px);width:80%;margin: auto;"></div>
+    <!-- <div class="tradingview-widget-copyright">< href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div> -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+   
+  </div>
+  <!-- TradingView Widget END -->
+   
+
+    <script type="text/javascript" src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="techanjs.js"></script>
+    <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    
+</body>
+
+
+
+
+
+
+
+
+
+
+
+  <!-- log in page -->
         <!-- <tr>
             <td style="padding: 5px"><label>User Name :</label></td>
             <td style="padding: 15px"><textarea id="userName"></textarea></td>
@@ -57,27 +112,3 @@
             
         </tr> -->
     
-    
-    </table>
-
-    <div class="main" style="display: flex;border: solid black; width: 500px;margin-left: auto; margin-right: auto;">
-
-        <div id="msgWindow" class="scroll"  style="background-color:rosybrown; height: 100px ; width: 500px">
-            <blockquote id="stocks" style="text-align: center">Stock infomation</blockquote>
-            <blockquote id="stockInfo" style="text-align: center"></blockquote>
-        </div>
-
-    </div>
-    
-
-    <div class="main" style="display: flex; align-items: center; justify-content: center; margin-top: 10;">
-        <button type="button" id="buyBtn" >Buy</button>
-        <button type="button" id="sellBtn" style="margin-left: 10%">Sell</button>
-    </div>
-
-
-    <script type="text/javascript" src="index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    
-</body>
