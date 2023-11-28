@@ -2,12 +2,17 @@ let balanceText = document.getElementById("balance")
 let totalStockValue = 0.0
 let currentAmount
 let balance
+let token
 
 function getInventory(){
+
+    
     // get balance
     const urlParams = new URLSearchParams(window.location.search);
     balance = urlParams.get('param1');
+    token = urlParams.get('param2')
     console.log(balance )
+    console.log("Token = " + token )
     balanceText.textContent = `Available Balance : ${parseFloat(balance).toFixed(2)}`
 
 
@@ -26,8 +31,23 @@ function getInventory(){
     // xhr.open('GET', 'http://localhost:8080/inventory', true);
     // xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     // xhr.send();
+    const tokenParams = new URLSearchParams(token);
+    const idToken = tokenParams.get('id_token');
+    const accessToken = tokenParams.get('access_token');
+  
+    // console.log('ID Token:', idToken);
+    // console.log('Access Token:', accessToken);
+  
+    const decodedIdToken = atob(idToken.split('.')[1]);
+    const parsedIdToken = JSON.parse(decodedIdToken);
+  
+    username = parsedIdToken['cognito:username'];
+    // console.log('User name:', username)
+    
+    userId = parsedIdToken.sub;
 
-    fetch('http://localhost:8080/inventory')
+    const url = `http://localhost:8080/inventory?uID=${userId}`;
+    fetch(url)
         .then(response => {
             if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -80,6 +100,25 @@ switchPage.onclick = function(event){
     console.log("value = " + value)
     
     let url = `inventory.html?param1=${encodeURIComponent(value)}`
+    if(token != null){
+        url = `inventory.html?param1=${encodeURIComponent(value)}&param2=${encodeURIComponent(token)}`
+    }
+    window.location.href = url
+
+}
+
+let homePage = document.getElementById("homePage")
+homePage.onclick = function(event){
+    event.preventDefault()
+    let value = balanceText.textContent.split(": ")[1]
+    console.log("value = " + value)
+    let url = 'index.html'
+    if(token != null){
+        
+      url = `http://localhost:8080/#${token}`
+      
+    }
+    console.log(url)
     window.location.href = url
 
 }

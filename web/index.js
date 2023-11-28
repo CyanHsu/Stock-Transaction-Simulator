@@ -7,6 +7,66 @@ let stockName = document.getElementById("stockName");
 let companyName
 let currentPrice
 
+var isLogin = false
+
+// get user name and ID
+const hash = window.location.hash.substr(1);
+let username
+let userId 
+if(hash.length != 0){
+  // get token
+  const tokenParams = new URLSearchParams(hash);
+  const idToken = tokenParams.get('id_token');
+  const accessToken = tokenParams.get('access_token');
+
+  // console.log('ID Token:', idToken);
+  // console.log('Access Token:', accessToken);
+
+  const decodedIdToken = atob(idToken.split('.')[1]);
+  const parsedIdToken = JSON.parse(decodedIdToken);
+
+  username = parsedIdToken['cognito:username'];
+  // console.log('User name:', username)
+  
+  userId = parsedIdToken.sub;
+  // console.log('User ID:', userId);
+
+  isLogin = true;
+}
+else{
+  console.log("Not login")
+}
+
+
+var loginBtn = document.getElementById("login")
+loginBtn.onclick = function(event){
+  
+  event.preventDefault()
+  let url
+  if(!isLogin){
+    url = "https://myusers.auth.us-west-1.amazoncognito.com/login?client_id=2cmoec7k5o0itvn83sreuo3sef&response_type=token&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%3A8080"
+    
+  }
+  else{
+    url = "index.html"
+  }
+
+  window.location.href = url
+  
+
+}
+
+if(isLogin){
+  loginBtn.textContent = "Log Out"
+  let userName = document.getElementById("user")
+  userName.textContent = "Hello " + username 
+
+  updateUser()
+  
+}
+
+
+// search current stock price
 var closePrice
 var highPrice
 var lowPrice
@@ -19,14 +79,14 @@ stockSearch.onclick = function(){
     console.log("click")
     let company = document.getElementById("stockName");
     companyName = company.value;
-    let queryUrl = "http://query1.finance.yahoo.com/v8/finance/chart/" + company.value + "?region=US&lang=en-US&includePrePost=false&interval=2m&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
+    let queryUrl = "https://query1.finance.yahoo.com/v8/finance/chart/" + company.value + "?region=US&lang=en-US&includePrePost=false&interval=2m&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
     // let currentStockInfo = JSON.parse(query);
    
 
     
     // parse return data
     console.log(queryUrl)
-    const corsURL = 'http://cors-anywhere.herokuapp.com/';
+    const corsURL = 'https://cors-anywhere.herokuapp.com/';
     axios.get(`${corsURL}${queryUrl}`)  
         .then(function (response) {
             var data = response.data
@@ -68,6 +128,7 @@ stockSearch.onclick = function(){
     company.value = "";
 }
 
+// handle buy and sell actions
 let buyBtn = document.getElementById("buyBtn")
 let sellBtn = document.getElementById("sellBtn")
 let balanceText = document.getElementById("balance")
@@ -77,18 +138,67 @@ let balance
 buyBtn.addEventListener("click", () => transaction("Buy"))
 sellBtn.addEventListener("click", () => transaction("Sell"))
 
+// Update user database
+
+function updateUser(){
+  const data = {
+    uID: userId,
+    userName: username
+    
+  }
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:8080/users', true);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.send(JSON.stringify(data));
+  
+    xhr.onload = function() {
+      if (xhr.status >= 200 && xhr.status < 400) {
+          console.log('success');
+          updateBalance()
+      } else {
+          console.error('error');
+          var errorMessage = JSON.parse(xhr.responseText).error;
+          // alert(xhr.status);
+          alert(errorMessage);
+      }
+  };
+
+  xhr.onerror = function(err) {
+      alert(err)
+      console.error('error');
+  };
+}
+
+
+
 function transaction(action){
-    var shareQuantity = prompt('Share quantity: ');
-    const dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    const data = {
-        companyName: companyName,
-        dateTime: dateTime, 
-        stockPrice: currentPrice, 
-        shareQuantity: (action == "Buy")?shareQuantity * 1 :shareQuantity *-1,
-        action: action,
-        changes: (action == "Buy")?currentPrice * shareQuantity * -1 :currentPrice * shareQuantity
-        
-    }
+  if(!isLogin){
+    alert("Please sign in first")
+    return
+  }
+
+  if(displayWindow.textContent == ""){
+    alert("Please search a symbol first")
+    return
+  }
+  var shareQuantity = prompt('Share quantity: ');
+  console.log(shareQuantity);
+  if(shareQuantity == "" && Number.isInteger(shareQuantity)){
+    alert("Please input a valid number")
+    return
+  }
+
+  const dateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  const data = {
+      uID: userId,
+      companyName: companyName,
+      dateTime: dateTime, 
+      stockPrice: currentPrice, 
+      shareQuantity: (action == "Buy")?shareQuantity * 1 :shareQuantity *-1,
+      action: action,
+      changes: (action == "Buy")?currentPrice * shareQuantity * -1 :currentPrice * shareQuantity
+      
+  }
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:8080/insert', true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -116,8 +226,19 @@ function transaction(action){
 }
 
 function updateBalance(){
+    if(!isLogin){
+      return
+    }
+    // const data = {
+    //   uID: userId,
+    //   userName: username
+    // }
+    const url = `http://localhost:8080/balance?uID=${userId}&userName=${username}`;
+
+    console.log("user ID : " + userId)
+    
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:8080/balance', true);
+    xhr.open('GET', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.send();
 
@@ -149,6 +270,22 @@ switchPage.onclick = function(event){
     console.log("value = " + value)
     
     let url = `inventory.html?param1=${encodeURIComponent(value)}`
+    if(hash.length != 0){
+      url = `inventory.html?param1=${encodeURIComponent(value)}&param2=${hash}`
+    }
+    window.location.href = url
+
+}
+
+let homePage = document.getElementById("homePage")
+homePage.onclick = function(event){
+    event.preventDefault()
+    let value = balanceText.textContent.split(": ")[1]
+    console.log("value = " + value)
+    let url = 'index.html'
+    if(hash.length != 0){
+      url = `#${hash}`
+    }
     window.location.href = url
 
 }
@@ -232,4 +369,58 @@ function tradingView(symbol){
   }
     );
 }
+
+// // 配置 AWS SDK
+// AWS.config.region = 'us-west-1'; // 您的 Cognito 用户池所在的区域
+// AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+//     IdentityPoolId: 'us-west-1_qHMDKi3gC' // 您的 Cognito 身份池 ID
+// });
+
+// // 创建 CognitoIdentityServiceProvider 对象
+// var cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
+
+// 创建 CognitoUserPool 对象
+// var poolData = {
+// 	UserPoolId: 'us-west-1_qHMDKi3gC', // Your user pool id here
+// 	ClientId: '2cmoec7k5o0itvn83sreuo3sef', // Your client id here
+// };
+// var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+// console.log("userPool : " + userPool[0]);
+
+
+// var cognitoUser = userPool.getCurrentUser();
+
+// if (cognitoUser != null) {
+//     cognitoUser.getSession(function(err, session) {
+//         if (err) {
+//             console.log(err);
+//             return;
+//         }
+        
+//         console.log('Session valid');
+        
+//         // 通过获取当前用户的信息来获取用户名
+//         cognitoUser.getUserAttributes(function(err, attributes) {
+//             if (err) {
+//                 console.log(err);
+//                 return;
+//             }
+            
+//             for (var i = 0; i < attributes.length; i++) {
+//                 if (attributes[i].getName() === 'username') {
+//                     console.log('Username:', attributes[i].getValue());
+//                     break;
+//                 }
+//             }
+//         });
+//     });
+// } else {
+//     console.log(cognitoUser);
+// }
+
+
+
+
+
+
 

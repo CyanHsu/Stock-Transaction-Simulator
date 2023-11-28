@@ -1,9 +1,19 @@
 
 <head>
+    <!-- <script src="https://sdk.amazonaws.com/js/aws-sdk-3.183.0.min.js"></script> -->
+    <script src="node_modules/aws-sdk/dist/aws-sdk.min.js"></script>
+    <script src="node_modules/amazon-cognito-identity-js/dist/amazon-cognito-identity.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/4.6.2/amazon-cognito-identity.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6.3.7/lib/index.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@4.3.4/lib/index.min.js"></script> -->
+
+
   <table>
     <tr>
-        <td><a href="index.html">Home</a></td>
+        <td><a id = "homePage" href="#">Home</a></td>
         <td><a id = "switchPage" href="#">Inventory</a></td>
+        <td><p id = "user" ></a></td>
+        <td><button type="button" id="login" >Log In/Sign Up</button></td>
     </tr>
   </table>
 </head>
@@ -69,12 +79,14 @@
   </div>
   <!-- TradingView Widget END -->
    
-
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aws-sdk/2.971.0/aws-sdk.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/5.0.9/amazon-cognito-identity.min.js"></script> -->
+  
     <script type="text/javascript" src="index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="techanjs.js"></script>
+    <!-- <script src="techanjs.js"></script> -->
     <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
