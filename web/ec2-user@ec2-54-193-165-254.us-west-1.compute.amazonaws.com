@@ -4,8 +4,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 const app = express();
 const axios = require('axios'); 
-const https = require('https');
-const fs = require('fs');
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -20,9 +18,9 @@ app.use((req, res, next) => {
 
 // Create connection
 const db = mysql.createConnection({
-  host: 'database-1.crybqgxfyar8.us-west-1.rds.amazonaws.com',
-  user: 'admin', 
-  password: '123456789', 
+  host: '127.0.0.1',
+  user: 'root', 
+  password: '', 
   database: 'stock'
 });
 
@@ -135,23 +133,17 @@ app.post('/insert', (req, res) => {
 });
 
 
-// const _dirname = '/Users/chunhaohsu/Capstone/webProject/web'
-// app.use(express.static(_dirname));
+const _dirname = '/Users/chunhaohsu/Capstone/webProject/web'
+app.use(express.static(_dirname));
 
-// app.get('/', (req, res) => {
-//   res.sendFile(_dirname + '/index.html');
-// });
-const options = {
-  key: fs.readFileSync('private.key'), 
-  cert: fs.readFileSync('certificate.crt'), 
-
-};
-const server = https.createServer(options, app);
+app.get('/', (req, res) => {
+  res.sendFile(_dirname + '/index.html');
+});
 
 
 const port = 8080; 
-server.listen(port, () => {
-  console.log(`wait request on https://54.193.165.254:${port}`);
+app.listen(port, () => {
+  console.log(`wait request on http://localhost:${port}`);
 });
 
 app.get('/inventory', function(req, res) {

@@ -44,7 +44,7 @@ loginBtn.onclick = function(event){
   event.preventDefault()
   let url
   if(!isLogin){
-    url = "https://myusers.auth.us-west-1.amazoncognito.com/login?client_id=2cmoec7k5o0itvn83sreuo3sef&response_type=token&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%3A8080"
+    url = "https://myusers.auth.us-west-1.amazoncognito.com/login?client_id=2cmoec7k5o0itvn83sreuo3sef&response_type=token&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fd2ars47ikc7eh4.cloudfront.net"
     
   }
   else{
@@ -121,7 +121,7 @@ function updateUser(){
     
   }
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:8080/users', true);
+    xhr.open('POST', 'https://server.portfolio-web.net:8080/users', true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.send(JSON.stringify(data));
   
@@ -175,7 +175,7 @@ function transaction(action){
       
   }
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:8080/insert', true);
+    xhr.open('POST', 'https://server.portfolio-web.net:8080/insert', true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.send(JSON.stringify(data));
 
@@ -208,7 +208,7 @@ function updateBalance(){
     //   uID: userId,
     //   userName: username
     // }
-    const url = `http://localhost:8080/balance?uID=${userId}&userName=${username}`;
+    const url = `https://server.portfolio-web.net:8080/balance?uID=${userId}&userName=${username}`;
 
     console.log("user ID : " + userId)
     
@@ -296,7 +296,7 @@ function tradingView(symbol){
 let stockWidget = document.getElementById("stockWidget")
 const getStockData = async (companyName) => {
   try {
-    const response = await fetch(`http://localhost:8080/getStockData?company=${companyName}`);
+    const response = await fetch(`https://server.portfolio-web.net:8080/getStockData?company=${companyName}`);
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }

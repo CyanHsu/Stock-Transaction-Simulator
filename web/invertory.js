@@ -31,7 +31,7 @@ function getInventory(){
     
     userId = parsedIdToken.sub;
 
-    const url = `http://localhost:8080/inventory?uID=${userId}`;
+    const url = `https://server.portfolio-web.net:8080/inventory?uID=${userId}`;
     console.log("user : " + userId)
     fetch(url)
         .then(response => {
@@ -77,10 +77,10 @@ let homePage = document.getElementById("homePage")
 homePage.onclick = function(event){
     event.preventDefault()
    
-    let url = 'index.html'
+    // let url = 'index.html'
     if(token != null){
         
-      url = `http://localhost:8080/#${token}`
+      url = `https://d2ars47ikc7eh4.cloudfront.net/#${token}`
       
     }
     console.log(url)
@@ -94,7 +94,7 @@ let table = document.getElementById("inventoryTable")
 const getStockData = async (element) => {
   try {
     let companyName = element.companyName
-    const response = await fetch(`http://localhost:8080/getStockData?company=${companyName}`);
+    const response = await fetch(`https://server.portfolio-web.net:8080/getStockData?company=${companyName}`);
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }
