@@ -46,29 +46,7 @@ function getInventory(){
                     if(element.shareQuantity != 0){
                         // let companyName = element.companyName;
                         getStockData(element)
-                        // let currentPrice = 0;
-                        // parse return data
-                      
-                        // axios.get(`${corsURL}${queryUrl}`)  
-                        //     .then(function (response) {
-                        //         var data = response.data
-                        //         currentPrice = data.chart.result[0].meta.regularMarketPrice;
-                        //         console.log("Company : " + companyName + " current price = " + currentPrice)
-                        //         let profit =  parseFloat(currentPrice) * parseFloat(element.shareQuantity) - parseFloat(element.cost) 
-                        //         console.log("Current cost : " + parseFloat(currentPrice) * parseFloat(element.shareQuantity))
-                        //         console.log("element.cost = " + element.cost)
-                        //         let profitRate = profit * 100/parseFloat(element.cost)
-                        //         console.log("profit = " + profit)
-                        //         let row = document.createElement('tr')
-                        //         row.innerHTML = `<td>${element.companyName}</td><td>${element.stockPrice}</td><td>${element.shareQuantity}</td><td>${element.cost}</td><td>${(profit.toFixed(2)==0 || profit.toFixed(2)==-0)?0:profit.toFixed(2) }</td><td>${(profit.toFixed(2)==0 || profit.toFixed(2)==-0)?0:(profitRate).toFixed(2)} %</td>`
-                        //         table.appendChild(row)
-                        //         totalStockValue += parseFloat(element.shareQuantity) * parseFloat(currentPrice)
-                        //     })
-                        //     .catch(function (error) {
-                        //         console.error("Error:", error);
-                        //         alert("Company: " + companyName + " not found");
-                        //     });
-
+                    
          
                     }
                 });
@@ -141,37 +119,10 @@ const getStockData = async (element) => {
           
   } catch (error) {
     console.error('Error:', error.message);
-    // 在这里处理错误
   }
 
   summary()
 };
-
-
-
-
-// let summaryBtn = document.getElementById('summary')
-// summaryBtn.onclick = function(){
-//     let newWindow = window.open('', '_blank', 'width=400,height=400');
-
-//     let table = document.createElement('table');
-//     let startRow = table.insertRow();
-//     // let startRow = row.insertCell(0);
-//     let currentRow =  table.insertRow();
-//     let profitRow =  table.insertRow();
-//     let rateRow =  table.insertRow();
-//     console.log("stock value : " + totalStockValue)
-//     console.log("balance : " + balance)
-//     let currentAmount =  parseFloat(totalStockValue) + parseFloat(balance)
-//     let profit = currentAmount - 100000;
-//     let rate = (profit == 0)?"0%":(parseFloat(profit)/1000)
-
-//     startRow.innerHTML = `<td>Starting Amount : </td><td>100000</td>`
-//     currentRow.innerHTML = `<td>Current Amount : </td><td>${currentAmount.toFixed(2)}</td>`
-//     profitRow.innerHTML = `<td>Current Profit</td><td>${profit.toFixed(2)}</td>`
-//     rateRow.innerHTML = `<td>Profit Rate</td><td>${rate.toFixed(2)} %</td>`
-//     newWindow.document.body.appendChild(table);
-// }
 
 
 function summary(){
@@ -199,7 +150,30 @@ signoutBtn.onclick = function(event){
 
 }
 
-
-
-
 window.onload = getInventory()
+
+
+
+
+// let summaryBtn = document.getElementById('summary')
+// summaryBtn.onclick = function(){
+//     let newWindow = window.open('', '_blank', 'width=400,height=400');
+
+//     let table = document.createElement('table');
+//     let startRow = table.insertRow();
+//     // let startRow = row.insertCell(0);
+//     let currentRow =  table.insertRow();
+//     let profitRow =  table.insertRow();
+//     let rateRow =  table.insertRow();
+//     console.log("stock value : " + totalStockValue)
+//     console.log("balance : " + balance)
+//     let currentAmount =  parseFloat(totalStockValue) + parseFloat(balance)
+//     let profit = currentAmount - 100000;
+//     let rate = (profit == 0)?"0%":(parseFloat(profit)/1000)
+
+//     startRow.innerHTML = `<td>Starting Amount : </td><td>100000</td>`
+//     currentRow.innerHTML = `<td>Current Amount : </td><td>${currentAmount.toFixed(2)}</td>`
+//     profitRow.innerHTML = `<td>Current Profit</td><td>${profit.toFixed(2)}</td>`
+//     rateRow.innerHTML = `<td>Profit Rate</td><td>${rate.toFixed(2)} %</td>`
+//     newWindow.document.body.appendChild(table);
+// }

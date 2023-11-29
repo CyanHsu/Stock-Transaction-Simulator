@@ -3,14 +3,14 @@ const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require('cors')
 const app = express();
-const axios = require('axios'); // 如果使用 CommonJS 的方式
+const axios = require('axios'); 
 
 app.use(cors())
 app.use(bodyParser.json());
 app.use(express.json());
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // 允许所有来源访问，生产环境中应更安全地配置
+  res.header('Access-Control-Allow-Origin', '*'); 
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
@@ -133,19 +133,6 @@ app.post('/insert', (req, res) => {
 });
 
 
-
-// app.get('/balance', function(req, res) {
-//   const { uID, userName } = req.body
-//   const query = `SELECT * FROM Transactions where uID = ?`
-//   db.query(query,uID, (error, results) => {
-//     if (error) {
-//       console.error('Query failed and balance:', error);
-//       return;
-//     }
-//     console.log('Query result balance:', results);
-//     res.json(results); // 
-//   });
-// });
 const _dirname = '/Users/chunhaohsu/Capstone/webProject/web'
 app.use(express.static(_dirname));
 
@@ -201,9 +188,8 @@ app.get('/getStockData', async (req, res) => {
 
    
       const response = await axios.get(queryUrl);
-      console.log(response.data); // 输出获取到的数据
+      console.log(response.data); 
    
-
     res.status(200).json(response.data);
     // res.json(response)
   } catch (error) {

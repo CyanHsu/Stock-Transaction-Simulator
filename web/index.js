@@ -1,4 +1,3 @@
-// const e = require("express");
 
 
 let stockSearch = document.getElementById("searchBtn");
@@ -105,107 +104,12 @@ stockSearch.onclick = function(){
     }
 
     getStockData(companyName)
-
-
-    // let queryUrl = "https://query1.finance.yahoo.com/v8/finance/chart/" + company.value + "?region=US&lang=en-US&includePrePost=false&interval=2m&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
-    // // let currentStockInfo = JSON.parse(query);
-   
-
-    
-    // // parse return data
-    // // console.log(queryUrl)
-    // const corsURL = 'https://cors-anywhere.herokuapp.com/';
-    // axios.get(`${corsURL}${queryUrl}`)  
-    //     .then(function (response) {
-    //         var data = response.data
-    //         // var print = toString(data)
-    //         console.log(data);
-    //         // var pos1 = data.
-    //         // print = print.substring(pos1, 1)
-    //         symbol = data.chart.result[0].meta.symbol;
-    //         closePrice = data.chart.result[0].indicators.quote[0].close
-    //         openPrice = data.chart.result[0].indicators.quote[0].open
-    //         highPrice = data.chart.result[0].indicators.quote[0].high
-    //         lowPrice = data.chart.result[0].indicators.quote[0].low
-    //         volume = data.chart.result[0].indicators.quote[0].volume
-    //         timestamp = data.chart.result[0].timestamp
-    //         // console.log(closePrice)
-    //         currentPrice = data.chart.result[0].meta.regularMarketPrice;
-    //         if(currentPrice != null){
-    //             var priviousPrice = data.chart.result[0].meta.chartPreviousClose;
-    //             var difference = (parseFloat(currentPrice) - parseFloat(priviousPrice)).toFixed(2);
-    //             // if(difference < 0){
-    //             //     displayWindow.textContent = symbol + "       " + currentPrice + "   - " + difference + "   (-" + (difference*100/parseFloat(priviousPrice)).toFixed(2) +  " %)";
-    //             // }
-    //             // else{
-    //             //     displayWindow.textContent = symbol + "       " + currentPrice + "   + " + difference + "   (+" + (difference*100/parseFloat(priviousPrice)).toFixed(2) + " %)";
-    //             // }
-
-    //             let stockWidgetContainer = document.getElementById("stockWidgetContainer")
-    //             let stockWidget = document.createElement('div');
-    //             stockWidget.classList.add('stockWidget')
-
-    //             let infoDiv = document.createElement('div');
-    //             infoDiv.classList.add('info')
-
-    //             let nameDiv = document.createElement('div');
-    //             nameDiv.classList.add('name');
-    //             nameDiv.id = 'stocks';
-    //             nameDiv.textContent = symbol;
-    //             infoDiv.appendChild(nameDiv);
-
-    //             badgeDiv = document.createElement('div');
-    //             badgeDiv.classList.add('badge');
-
-    //             valueSpan = document.createElement('span');
-    //             valueSpan.classList.add('value');
-    //             valueSpan.textContent = currentPrice;
-
-    //             badgeDiv.appendChild(valueSpan);
-
-    //             let moreDataDiv = document.createElement('div');
-    //             moreDataDiv.classList.add('more-data');
-
-    //             let changeDiv = document.createElement('div');
-    //             changeDiv.classList.add('change', 'earn');
-    //             changeDiv.textContent = difference;
-
-    //             const changePercentageDiv = document.createElement('div');
-    //             changePercentageDiv.classList.add('change-percentage', 'earn');
-    //             changePercentageDiv.textContent = (difference*100/parseFloat(priviousPrice)).toFixed(2) +  " %";
-
-    //             moreDataDiv.appendChild(changeDiv);
-    //             moreDataDiv.appendChild(changePercentageDiv);
-
-    //             stockWidget.appendChild(infoDiv);
-    //             stockWidget.appendChild(badgeDiv);
-    //             stockWidget.appendChild(moreDataDiv);
-
-    //             stockWidgetContainer.appendChild(stockWidget);
-
-
-     
-    //             tradingView(symbol)
-
-    //         }
-    //         else{
-    //             alert("Company: " + companyName + " not found");
-    //         }
-    //     })
-    //     .catch(function (error) {
-    //         console.error("Error:", error);
-    //         alert("Company: " + companyName + " not found");
-    //     });
-
-    // company.value = "";
 }
 
-// handle buy and sell actions
+
 
 let balanceText = document.getElementById("balance")
 let balance
-
-
 
 
 // Update user database
