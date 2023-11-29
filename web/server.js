@@ -3,10 +3,18 @@ const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require('cors')
 const app = express();
+const axios = require('axios'); // 如果使用 CommonJS 的方式
 
 app.use(cors())
 app.use(bodyParser.json());
 app.use(express.json());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // 允许所有来源访问，生产环境中应更安全地配置
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 // Create connection
 const db = mysql.createConnection({
@@ -124,18 +132,7 @@ app.post('/insert', (req, res) => {
   })
 });
 
-app.get('/inventory', function(req, res) {
-  const { uID} = req.query;
-  const query = `SELECT * FROM Inventory WHERE uID = ?`;
-  db.query(query, uID, (error, results) => {
-    if (error) {
-      console.error('Query failed:', error);
-      return;
-    }
-    console.log('Query result:', results);
-    res.json(results); // 
-  });
-});
+
 
 // app.get('/balance', function(req, res) {
 //   const { uID, userName } = req.body
@@ -162,6 +159,20 @@ app.listen(port, () => {
   console.log(`wait request on http://localhost:${port}`);
 });
 
+app.get('/inventory', function(req, res) {
+  const { uID} = req.query;
+  console.log("inventory: " + uID)
+  const query = `SELECT * FROM Inventory WHERE uID = ?`;
+  db.query(query, uID, (error, results) => {
+    if (error) {
+      console.error('Query failed:', error);
+      res.status(500).json({ error: 'Failed to retrieve data' });
+      return;
+    }
+    console.log('Query result(inventory):', results);
+    res.json(results); // 
+  });
+});
 
 app.get('/balance', (req, res) => {
   const { uID, userName } = req.query;
@@ -174,7 +185,30 @@ app.get('/balance', (req, res) => {
       res.status(500).json({ error: 'Failed to retrieve data' });
       return;
     }
-    console.log('Query result:', result);
+    console.log('Query result(balance):', result);
     res.json(result);
   });
 });
+
+
+app.get('/getStockData', async (req, res) => {
+  try {
+    
+    const { company } = req.query;
+    console.log("ask for stock data of " + company)
+
+    let queryUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${company}?region=US&lang=en-US&includePrePost=false&interval=2m&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance`;
+
+   
+      const response = await axios.get(queryUrl);
+      console.log(response.data); // 输出获取到的数据
+   
+
+    res.status(200).json(response.data);
+    // res.json(response)
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch data' });
+  }
+});
+
+

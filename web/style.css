@@ -1,0 +1,306 @@
+@charset "UTF-8";
+@import "https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/dashboard.scss";
+@import url(https://fonts.googleapis.com/css?family=Cabin:400);
+body {
+    background-color: #1b2431;
+    color: #202020;
+    font-family: "Montserrat", "Helvetica", "Open Sans", "Arial";
+    font-size: 13px;
+}
+.container-fluid {
+    background-color: #1b2431;
+}
+a:hover {
+    text-decoration: none;
+}
+p, figure {
+    margin: 0;
+    padding: 0;
+    color: #efe;
+}
+.navbar {
+    background-color: #0d1117;
+    color: white;
+}
+.navbar-text {
+    margin-right: 20px;
+    color: #738297;
+}
+.sidebar {
+    background-color: #141a24;
+    box-shadow: none;
+}
+.sidebar .nav-link {
+    border-left: 5px solid transparent;
+    color: #738297;
+    padding: .5rem .75rem;
+}
+.sidebar .nav-link:hover {
+    color: white;
+}
+.sidebar .nav-link.active {
+    border-left: 5px solid #738297;
+    color: white;
+}
+.sidebar .zmdi {
+    display: inline-block;
+    font-size: 1.35rem;
+    margin-right: 5px;
+    min-width: 25px;
+}
+.card-list {
+    width: 100%;
+}
+.card-list:before, .card-list:after {
+    content: " ";
+    display: table;
+}
+.card-list:after {
+    clear: both;
+}
+.card {
+    border-radius: 8px;
+    color: white;
+    padding: 10px;
+    position: relative;
+}
+.card .stat {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 10px;
+    margin-top: 25px;
+    padding: 10px 10px 0;
+}
+.card .title {
+    display: inline-block;
+    font-size: 14px;
+    padding: 10px 10px 0;
+}
+.card .value {
+    font-size: 28px;
+    padding: 0 10px;
+    margin-top: 20px;
+}
+.card.blue {
+    background-color: #2298F1;
+}
+.card.green {
+    background-color: #66B92E;
+}
+.card.orange {
+    background-color: #DA932C;
+}
+.card.red {
+    background-color: #D65B4A;
+}
+.projects {
+    background-color: #273142;
+    border: 1px solid #313D4F;
+    overflow-x: auto;
+    width: 100%;
+}
+.projects-inner {
+    border-radius: 4px;
+}
+.projects-header {
+    color: white;
+    padding: 22px;
+}
+.projects-header .title {
+    display: inline-block;
+    font-size: 21px;
+}
+.projects-table {
+    background: #273142;
+    width: 100%;
+}
+.projects-table td, .projects-table th {
+    color: white;
+    padding: 10px 22px;
+    vertical-align: middle;
+}
+.projects-table td p {
+    font-size: 12px;
+}
+.projects-table th {
+    background-color: #313D4F;
+}
+.projects-table tr:hover {
+    background-color: #303d52;
+}
+.projects-table tr:not(:last-of-type) {
+    border-bottom: 1px solid #313D4F;
+}
+.projects-table .status > form {
+    float: right;
+}
+.projects-table .status-text {
+    display: inline-block;
+    font-size: 12px;
+    margin: 11px 0;
+    padding-left: 20px;
+    position: relative;
+}
+.projects-table .status-text:before {
+    border: 3px solid;
+    border-radius: 50%;
+    content: "";
+    height: 14px;
+    left: 0;
+    position: absolute;
+    top: 1px;
+    width: 14px;
+}
+.projects-table .status-text.status-green:before {
+    border-color: #66B92E;
+}
+.projects-table .status-text.status-red:before {
+    border-color: #D65B4A;
+}
+.selectric {
+    background-color: transparent;
+    border-color: #313D4F;
+    border-radius: 4px;
+}
+.selectric .label {
+    color: #738297;
+    line-height: 34px;
+    margin-right: 10px;
+    text-align: left;
+}
+.selectric-wrapper {
+    float: right;
+    width: 150px;
+}
+.zmdi {
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.searchWidget {
+    text-align: center;
+    width: 100%;
+}
+.searchWidget form {
+    display: inline-block;
+    margin: 30px auto 0;
+}
+.searchWidget input {
+    background: linear-gradient(#333, #222);
+    border: 1px solid #444;
+    border-radius: 5px 0 0 5px;
+    box-shadow: 0 2px 0 #000;
+    color: #888;
+    display: block;
+    float: left;
+    font-size: 15px;
+    font-weight: 400;
+    height: 40px;
+    margin: 0;
+    padding: 0 10px;
+    text-shadow: 0 -1px 0 #000;
+    width: 350px;
+}
+.searchWidget input:focus {
+    background: #222922;
+    border-color: #393;
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.2), inset 0 0 5px rgba(0, 255, 0, 0.1), 0 2px 0 #000;
+    color: #efe;
+    outline: none;
+}
+.searchWidget button {
+    background: linear-gradient(#333, #222);
+    box-sizing: border-box;
+    border: 1px solid #444;
+    border-left-color: #000;
+    border-radius: 0 5px 5px 0;
+    box-shadow: 0 2px 0 #000;
+    color: #efe;
+    display: block;
+    float: left;
+    font-size: 15px;
+    font-weight: 400;
+    height: 40px;
+    line-height: 40px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    text-shadow: 0 -1px 0 #000;
+    width: 80px;
+}
+.searchWidget button:hover, .searchWidget button:focus {
+    background: linear-gradient(#393939, #292929);
+    color: #5f5;
+    outline: none;
+}
+.searchWidget button:active {
+    background: linear-gradient(#393939, #292929);
+    box-shadow: 0 1px 0 #000, inset 1px 0 1px #222;
+    top: 1px;
+}
+.stockWidget {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    color: #ffffff;
+    font-weight: 300;
+    background: #0d1117;
+    border-radius: 1rem;
+    width: 350px;
+    height: 190px;
+    box-shadow: 0px 8px 38px -8px rgba(0, 0, 0, 0.75);
+    margin-right: 50px;
+}
+.stockWidget .info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 20px;
+    width: 86.95%;
+}
+.stockWidget .badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 110%;
+    height: 60px;
+    /* background: linear-gradient(0deg, #4cd964, #76e288); */
+    /* background: linear-gradient(0deg, #4cd964, #e27676); */
+    border-radius: 1rem;
+    box-shadow: 0px 8px 18px -7px rgba(0, 0, 0, 0.75);
+}
+.stockWidget .badge .value {
+    font-size: 2.2rem;
+}
+.stockWidget .badge .currency {
+    font-size: 1.8rem;
+}
+.stockWidget .more-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    width: 86.95%;
+}
+.stockWidget .more-data .loss {
+    color: #ff2d55;
+}
+.stockWidget .more-data .earn {
+    color: #4cd964;
+}
+.stockWidget .more-data .change {
+    margin-right: auto;
+}
+.stockWidget .more-data .change, .stockWidget .more-data .change-percentage {
+    opacity: 0.7;
+}

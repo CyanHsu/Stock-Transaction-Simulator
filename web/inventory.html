@@ -1,41 +1,217 @@
-<head>
-    <table>
-      <tr>
-        <td><a id = "homePage" href="#">Home</a></td>
-        <td><a id = "switchPage" href="#">Inventory</a></td>
-      </tr>
-    </table>
-  </head>
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,600" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.selectric/1.10.1/selectric.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<body  style="background-color: lightgray ;margin: auto ;  justify-content: center;">
-    <style>
-        .container {
-          /* display: box; */
-          /* grid-template-columns: center center; */
-          margin-left: auto;
-          margin-right: auto;
-        }
-      </style>
-    <div class="container">
-        <h1 style="text-align: center; font-family: 'Arial Black',fantasy; color: steelblue" >Inventory</h1>
-        <table  class="container">
-            <tr>
-                <td>
-                    <p id = "balance" style="padding-right: 20;"> Available Balance : 100000 </p>
-                </td>
-                <td>
-                    <button id = "summary">Summary</button>
-                </td>
-            </tr>
-            
-        </table>
-       
-       
-      
+<!--標題列-->
+<nav class="navbar navbar-dark sticky-top">
+    <a class="navbar-brand" href="#">Stock Simulator</a>
+    <div class="d-flex align-items-center">
+        <div class="navbar-text me-3 py-2">
+            Hello, <span class="user" id="user"></span>!
+        </div>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="btn btn-outline-dark btn-sm" href="#" id="signout">Sign out</a>
+            </li>
+        </ul>
     </div>
+</nav>
 
-    <div id = "tableContainer"></div>
 
-      <script type="text/javascript" src="invertory.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<div class="container-fluid">
+    <div class="row">
+        <!--sidebar導覽列-->
+        <nav class="col-md-2 d-none d-md-block sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" id = "homePage" href="#">
+                            <i class="zmdi zmdi-widgets"></i>
+                            Home
+                            <!-- 							<span class="sr-only">(current)</span> -->
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" id = "switchPage" href="#">
+                            <i class="zmdi zmdi-shopping-cart"></i>
+                            My Inventory
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <!--內容右欄-->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 my-3">
+            <!--4色卡-->
+            <div class="card-list">
+                <div class="row">
+
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                        <div class="card blue">
+                            <div class="title">Starting Amount</div>
+                            <div class="value">$100,000</div>
+                            <div class="stat">Your initial investment</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                        <div class="card green">
+                            <div class="title">Current Amount</div>
+                            <div class="value" id="currentAmount">$------</div>
+                            <div class="stat">Your present value</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                        <div class="card orange">
+                            <div class="title">Current Profit</div>
+                            <div class="value" id="profit">------</div>
+                            <div class="stat">Net gain/loss now</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                        <div class="card red">
+                            <div class="title">Profit Rate</div>
+                            <div class="value" id="profitRate">---%</div>
+                            <div class="stat">Percentage increase from start to now</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--列表-->
+            <div class="projects mb-4">
+                <div class="projects-inner">
+                    <header class="projects-header">
+                        <div class="title">My Inventory</div>
+                    </header>
+
+                    <table class="projects-table" id="inventoryTable">
+                        <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Stock Price</th>
+                            <th>Share Quantity</th>
+                            <th>Cost</th>
+                            <th>Profit</th>
+                            <th>Profit Rate</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <!-- <tr>
+                            <td>
+                                <p>AAPL</p>
+                            </td>
+                            <td>
+                                <p>$4,670</p>
+                            </td>
+                            <td>
+                                <p>5</p>
+                            </td>
+                            <td>
+                                <p>$7,670</p>
+                            </td>
+                            <td class="status">
+                                <span class="status-text status-green">$3,293</span>
+                            </td>
+                            <td>
+                                <span class="status-text status-green">-2.50%</span>
+                            </td>
+                            <td> -->
+                                <!-- <form class="form" action="#" method="POST">
+                                    <select class="action-box">
+                                        <option>Actions</option>
+                                        <option>Buy</option>
+                                        <option>Sell</option>
+                                    </select>
+                                </form> -->
+                            <!-- </td>  -->
+                        <!-- </tr>  -->
+
+                        <!-- <tr>
+                            <td>
+                                <p>AAPL</p>
+                            </td>
+                            <td>
+                                <p>$4,670</p>
+                            </td>
+                            <td>
+                                <p>5</p>
+                            </td>
+                            <td>
+                                <p>$7,670</p>
+                            </td>
+                            <td class="status">
+                                <span class="status-text status-red">$3,293</span>
+                            </td>
+                            <td>
+                                <span class="status-text status-red">-2.50%</span>
+                            </td>
+                            <td>
+                                <form class="form" action="#" method="POST">
+                                    <select class="action-box">
+                                        <option>Actions</option>
+                                        <option>Buy</option>
+                                        <option>Sell</option>
+                                    </select>
+                                </form> -->
+                            <!-- </td> -->
+                        <!-- </tr>  -->
+
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!--<head>-->
+<!--    <table>-->
+<!--      <tr>-->
+<!--        <td><a href="index.html">Home</a></td>-->
+<!--        <td><a id = "switchPage" href="#">Inventory</a></td>-->
+<!--      </tr>-->
+<!--    </table>-->
+<!--</head>-->
+
+<!--<body  style="background-color: lightgray ;margin: auto ;  justify-content: center;">-->
+<!--    <style>-->
+<!--        .container {-->
+<!--          /* display: box; */-->
+<!--          /* grid-template-columns: center center; */-->
+<!--          margin-left: auto;-->
+<!--          margin-right: auto;-->
+<!--        }-->
+<!--    </style>-->
+<!--    <div class="container">-->
+<!--        <h1 style="text-align: center; font-family: 'Arial Black',fantasy; color: steelblue" >Inventory</h1>-->
+<!--        <table  class="container">-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <p id = "balance" style="padding-right: 20;"> Available Balance : 100000 </p>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <button id = "summary">Summary</button>-->
+<!--                </td>-->
+<!--            </tr>-->
+
+<!--        </table>-->
+
+
+
+<!--    </div>-->
+
+<!--    <div id = "tableContainer"></div>-->
+<body>
+  <script type="text/javascript" src="invertory.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
+  
+<!--</body>-->

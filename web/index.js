@@ -1,7 +1,8 @@
+// const e = require("express");
 
 
 let stockSearch = document.getElementById("searchBtn");
-let displayWindow = document.getElementById("stockInfo");
+// let displayWindow = document.getElementById("stockInfo");
 let stockName = document.getElementById("stockName");
 
 let companyName
@@ -55,12 +56,27 @@ loginBtn.onclick = function(event){
   
 
 }
+let btnContainer = document.getElementById("btnContainer")
+let buyBtn 
+let sellBtn 
 
 if(isLogin){
-  loginBtn.textContent = "Log Out"
+  loginBtn.textContent = "Sign Out"
   let userName = document.getElementById("user")
-  userName.textContent = "Hello " + username 
+  userName.textContent = "Hello, " + username  + "!"
+  buyBtn = document.createElement("button")
+  buyBtn.classList = "btn btn-outline-success"
+  buyBtn.style.marginRight= "10px"
+  buyBtn.textContent = "Buy"
+  sellBtn = document.createElement("button")
+  sellBtn.classList = "btn btn-outline-danger"
+  sellBtn.style.marginLeft = "10px"
+  sellBtn.textContent = "Sell"
 
+  btnContainer.appendChild(buyBtn)
+  btnContainer.appendChild(sellBtn)
+  buyBtn.addEventListener("click", () => transaction("Buy"))
+  sellBtn.addEventListener("click", () => transaction("Sell"))
   updateUser()
   
 }
@@ -74,69 +90,123 @@ var openPrice
 var timestamp
 var volume
 var symbol
+
+
+
 stockSearch.onclick = function(){
     // get real time stock price
     console.log("click")
     let company = document.getElementById("stockName");
     companyName = company.value;
-    let queryUrl = "https://query1.finance.yahoo.com/v8/finance/chart/" + company.value + "?region=US&lang=en-US&includePrePost=false&interval=2m&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
-    // let currentStockInfo = JSON.parse(query);
+
+    if(companyName == ""){
+      alert("Please enter a symbol")
+      return
+    }
+
+    getStockData(companyName)
+
+
+    // let queryUrl = "https://query1.finance.yahoo.com/v8/finance/chart/" + company.value + "?region=US&lang=en-US&includePrePost=false&interval=2m&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance";
+    // // let currentStockInfo = JSON.parse(query);
    
 
     
-    // parse return data
-    console.log(queryUrl)
-    const corsURL = 'https://cors-anywhere.herokuapp.com/';
-    axios.get(`${corsURL}${queryUrl}`)  
-        .then(function (response) {
-            var data = response.data
-            // var print = toString(data)
-            console.log(data);
-            // var pos1 = data.
-            // print = print.substring(pos1, 1)
-            symbol = data.chart.result[0].meta.symbol;
-            closePrice = data.chart.result[0].indicators.quote[0].close
-            openPrice = data.chart.result[0].indicators.quote[0].open
-            highPrice = data.chart.result[0].indicators.quote[0].high
-            lowPrice = data.chart.result[0].indicators.quote[0].low
-            volume = data.chart.result[0].indicators.quote[0].volume
-            timestamp = data.chart.result[0].timestamp
-            // console.log(closePrice)
-            currentPrice = data.chart.result[0].meta.regularMarketPrice;
-            if(currentPrice != null){
-                var priviousPrice = data.chart.result[0].meta.chartPreviousClose;
-                var difference = (parseFloat(currentPrice) - parseFloat(priviousPrice)).toFixed(2);
-                if(difference < 0){
-                    displayWindow.textContent = symbol + "       " + currentPrice + "   - " + difference + "   (-" + (difference*100/parseFloat(priviousPrice)).toFixed(2) +  " %)";
-                }
-                else{
-                    displayWindow.textContent = symbol + "       " + currentPrice + "   + " + difference + "   (+" + (difference*100/parseFloat(priviousPrice)).toFixed(2) + " %)";
-                }
-                // chart()
-                tradingView(symbol)
+    // // parse return data
+    // // console.log(queryUrl)
+    // const corsURL = 'https://cors-anywhere.herokuapp.com/';
+    // axios.get(`${corsURL}${queryUrl}`)  
+    //     .then(function (response) {
+    //         var data = response.data
+    //         // var print = toString(data)
+    //         console.log(data);
+    //         // var pos1 = data.
+    //         // print = print.substring(pos1, 1)
+    //         symbol = data.chart.result[0].meta.symbol;
+    //         closePrice = data.chart.result[0].indicators.quote[0].close
+    //         openPrice = data.chart.result[0].indicators.quote[0].open
+    //         highPrice = data.chart.result[0].indicators.quote[0].high
+    //         lowPrice = data.chart.result[0].indicators.quote[0].low
+    //         volume = data.chart.result[0].indicators.quote[0].volume
+    //         timestamp = data.chart.result[0].timestamp
+    //         // console.log(closePrice)
+    //         currentPrice = data.chart.result[0].meta.regularMarketPrice;
+    //         if(currentPrice != null){
+    //             var priviousPrice = data.chart.result[0].meta.chartPreviousClose;
+    //             var difference = (parseFloat(currentPrice) - parseFloat(priviousPrice)).toFixed(2);
+    //             // if(difference < 0){
+    //             //     displayWindow.textContent = symbol + "       " + currentPrice + "   - " + difference + "   (-" + (difference*100/parseFloat(priviousPrice)).toFixed(2) +  " %)";
+    //             // }
+    //             // else{
+    //             //     displayWindow.textContent = symbol + "       " + currentPrice + "   + " + difference + "   (+" + (difference*100/parseFloat(priviousPrice)).toFixed(2) + " %)";
+    //             // }
 
-            }
-            else{
-                alert("Company: " + companyName + " not found");
-            }
-        })
-        .catch(function (error) {
-            console.error("Error:", error);
-            alert("Company: " + companyName + " not found");
-        });
+    //             let stockWidgetContainer = document.getElementById("stockWidgetContainer")
+    //             let stockWidget = document.createElement('div');
+    //             stockWidget.classList.add('stockWidget')
 
-    company.value = "";
+    //             let infoDiv = document.createElement('div');
+    //             infoDiv.classList.add('info')
+
+    //             let nameDiv = document.createElement('div');
+    //             nameDiv.classList.add('name');
+    //             nameDiv.id = 'stocks';
+    //             nameDiv.textContent = symbol;
+    //             infoDiv.appendChild(nameDiv);
+
+    //             badgeDiv = document.createElement('div');
+    //             badgeDiv.classList.add('badge');
+
+    //             valueSpan = document.createElement('span');
+    //             valueSpan.classList.add('value');
+    //             valueSpan.textContent = currentPrice;
+
+    //             badgeDiv.appendChild(valueSpan);
+
+    //             let moreDataDiv = document.createElement('div');
+    //             moreDataDiv.classList.add('more-data');
+
+    //             let changeDiv = document.createElement('div');
+    //             changeDiv.classList.add('change', 'earn');
+    //             changeDiv.textContent = difference;
+
+    //             const changePercentageDiv = document.createElement('div');
+    //             changePercentageDiv.classList.add('change-percentage', 'earn');
+    //             changePercentageDiv.textContent = (difference*100/parseFloat(priviousPrice)).toFixed(2) +  " %";
+
+    //             moreDataDiv.appendChild(changeDiv);
+    //             moreDataDiv.appendChild(changePercentageDiv);
+
+    //             stockWidget.appendChild(infoDiv);
+    //             stockWidget.appendChild(badgeDiv);
+    //             stockWidget.appendChild(moreDataDiv);
+
+    //             stockWidgetContainer.appendChild(stockWidget);
+
+
+     
+    //             tradingView(symbol)
+
+    //         }
+    //         else{
+    //             alert("Company: " + companyName + " not found");
+    //         }
+    //     })
+    //     .catch(function (error) {
+    //         console.error("Error:", error);
+    //         alert("Company: " + companyName + " not found");
+    //     });
+
+    // company.value = "";
 }
 
 // handle buy and sell actions
-let buyBtn = document.getElementById("buyBtn")
-let sellBtn = document.getElementById("sellBtn")
+
 let balanceText = document.getElementById("balance")
 let balance
 
 
-buyBtn.addEventListener("click", () => transaction("Buy"))
-sellBtn.addEventListener("click", () => transaction("Sell"))
+
 
 // Update user database
 
@@ -176,8 +246,9 @@ function transaction(action){
     alert("Please sign in first")
     return
   }
-
-  if(displayWindow.textContent == ""){
+  let curStock = document.getElementById("stocks")
+  console.log(curStock)
+  if(curStock == null ){
     alert("Please search a symbol first")
     return
   }
@@ -265,6 +336,10 @@ function updateBalance(){
 
 let switchPage = document.getElementById("switchPage")
 switchPage.onclick = function(event){
+  if(!isLogin){
+    alert("Please sign in to view your inventory")
+    return
+  }
     event.preventDefault()
     let value = balanceText.textContent.split(": ")[1]
     console.log("value = " + value)
@@ -295,64 +370,8 @@ homePage.onclick = function(event){
 window.onload = updateBalance()
 
 
-function chart(){
-    var jsonData = [];
-    var startDate = new Date(timestamp[0] * 1000);
-
-    for (var i = 0; i < closePrice.length; i++) {
-        
-      var dataPoint = {
-        date: startDate.toISOString().split('T')[0],
-        open: openPrice[i],
-        high: highPrice[i],
-        low: lowPrice[i],
-        close: closePrice[i],
-        volume: volume[i]
-      };
-      jsonData.push(dataPoint);
-      startDate.setDate(startDate.getDate() - 1);
-    }
-    
-    var jsonString = JSON.stringify(jsonData);
-    console.log(jsonString)
-
-    var stockChart = new ej.charts.StockChart({
-        primaryYAxis: {
-          lineStyle: { color: "transparent" },
-          majorTickLines: { color: "transparent", width: 0 },
-          crosshairTooltip: { enable: true }
-        },
-        primaryXAxis: {
-          majorGridLines: { color: "transparent" },
-          crosshairTooltip: { enable: true },
-          title: "Months"
-        },
-        
-      
-      
-        enableSelector: false,
-        series: [
-          {
-            dataSource: jsonData,
-            type: "Candle",
-      
-           
-          }
-        ],
-       title: symbol + " Stock Price"
-      });
-
-    // document.getElementById("chart-container").appendChild(st)
-    document.getElementById("chart-container").style.width = 800
-      stockChart.appendTo("#chart-container");
-
-}
 
 function tradingView(symbol){
-
- 
-
-
 
   new TradingView.widget(
     {
@@ -370,53 +389,103 @@ function tradingView(symbol){
     );
 }
 
-// // 配置 AWS SDK
-// AWS.config.region = 'us-west-1'; // 您的 Cognito 用户池所在的区域
-// AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-//     IdentityPoolId: 'us-west-1_qHMDKi3gC' // 您的 Cognito 身份池 ID
-// });
-
-// // 创建 CognitoIdentityServiceProvider 对象
-// var cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
-
-// 创建 CognitoUserPool 对象
-// var poolData = {
-// 	UserPoolId: 'us-west-1_qHMDKi3gC', // Your user pool id here
-// 	ClientId: '2cmoec7k5o0itvn83sreuo3sef', // Your client id here
-// };
-// var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-// console.log("userPool : " + userPool[0]);
-
-
-// var cognitoUser = userPool.getCurrentUser();
-
-// if (cognitoUser != null) {
-//     cognitoUser.getSession(function(err, session) {
-//         if (err) {
-//             console.log(err);
-//             return;
-//         }
-        
-//         console.log('Session valid');
-        
-//         // 通过获取当前用户的信息来获取用户名
-//         cognitoUser.getUserAttributes(function(err, attributes) {
-//             if (err) {
-//                 console.log(err);
-//                 return;
-//             }
+let stockWidget = document.getElementById("stockWidget")
+const getStockData = async (companyName) => {
+  try {
+    const response = await fetch(`http://localhost:8080/getStockData?company=${companyName}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    const data = await response.json();
+  
+              
+    console.log('Stock data:', data);
+    // var print = toString(data)
+    console.log(data);
+    // var pos1 = data.
+    // print = print.substring(pos1, 1)
+    symbol = data.chart.result[0].meta.symbol;
+    closePrice = data.chart.result[0].indicators.quote[0].close
+    openPrice = data.chart.result[0].indicators.quote[0].open
+    highPrice = data.chart.result[0].indicators.quote[0].high
+    lowPrice = data.chart.result[0].indicators.quote[0].low
+    volume = data.chart.result[0].indicators.quote[0].volume
+    timestamp = data.chart.result[0].timestamp
+    // console.log(closePrice)
+    currentPrice = data.chart.result[0].meta.regularMarketPrice;
+    if(currentPrice != null){
+      var priviousPrice = data.chart.result[0].meta.chartPreviousClose;
+      var difference = (parseFloat(currentPrice) - parseFloat(priviousPrice)).toFixed(2);
+      while (stockWidget.firstChild) {
+        stockWidget.removeChild(stockWidget.firstChild);
+      }
             
-//             for (var i = 0; i < attributes.length; i++) {
-//                 if (attributes[i].getName() === 'username') {
-//                     console.log('Username:', attributes[i].getValue());
-//                     break;
-//                 }
-//             }
-//         });
-//     });
-// } else {
-//     console.log(cognitoUser);
-// }
+
+      // let stockWidgetContainer = document.getElementById("stockWidgetContainer")
+      
+      // stockWidget.classList.add('stockWidget')
+
+      let infoDiv = document.createElement('div');
+      infoDiv.classList.add('info')
+
+      let nameDiv = document.createElement('div');
+      nameDiv.classList.add('name');
+      nameDiv.id = 'stocks';
+      nameDiv.textContent = symbol;
+      infoDiv.appendChild(nameDiv);
+
+      badgeDiv = document.createElement('div');
+      badgeDiv.classList.add('badge');
+
+      valueSpan = document.createElement('span');
+      valueSpan.classList.add('value');
+      valueSpan.textContent = currentPrice;
+
+      badgeDiv.appendChild(valueSpan);
+
+      let moreDataDiv = document.createElement('div');
+      moreDataDiv.classList.add('more-data');
+
+      let changeDiv = document.createElement('div');
+      
+      changeDiv.textContent = difference;
+
+      const changePercentageDiv = document.createElement('div');
+      
+      changePercentageDiv.textContent = (difference*100/parseFloat(priviousPrice)).toFixed(2) +  " %";
+
+      if(difference > 0){
+        changeDiv.classList.add('change', 'earn');
+        changePercentageDiv.classList.add('change-percentage', 'earn');
+        badgeDiv.style.backgroundColor = "green"
+      }
+      else{
+        changeDiv.classList.add('change', 'loss');
+        changePercentageDiv.classList.add('change-percentage', 'loss');
+        badgeDiv.style.backgroundColor = "red"
+      }
+      moreDataDiv.appendChild(changeDiv);
+      moreDataDiv.appendChild(changePercentageDiv);
+
+      stockWidget.appendChild(infoDiv);
+      stockWidget.appendChild(badgeDiv);
+      stockWidget.appendChild(moreDataDiv);
+      stockWidget.style.marginLeft = "50px"
+      // stockWidgetContainer.appendChild(stockWidget);
+
+      tradingView(symbol)
+    }
+    else{
+        alert("Company: " + companyName + " not found");
+    }
+          
+  } catch (error) {
+    console.error('Error:', error.message);
+  
+  }
+};
+
+
 
 
 
