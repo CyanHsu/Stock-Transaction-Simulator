@@ -6,6 +6,7 @@ On the home page, before the user signs in, it can only be used to look up the r
 ![This is an image](https://github.com/CyanHsu/Stock-Transaction-Simulator/blob/main/Home%20page%20without%20logging%20in.png)
 
 Home page(without the user logging in)
+
 ![This is an image](https://github.com/CyanHsu/Stock-Transaction-Simulator/blob/main/Search1.png)
 
 Search current stock price
